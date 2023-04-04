@@ -20,7 +20,7 @@
                 MouseLeftButtonDown="DragWindowOnMouseLeftButtonDown"
         ></Border>
         <fa:ImageAwesome Icon="Close"
-                         Foreground="#Ff2400"
+                         Foreground="#cdd9e5"
                          Width="30"
                          Height="30"
                          Canvas.Left="1160"
@@ -36,15 +36,30 @@
                 >
             <Border Width="400"
                     Height="85"
-                    Background="#22272e"></Border>
+                    Background="#22272e"
+                    BorderThickness="0,0,1,1"
+                    BorderBrush="Aquamarine"></Border>
+            <fa:FontAwesome Icon="Bars"
+                            Width="50"
+                            Height="50"
+                            FontSize="50"
+                            Margin="20"
+                            x:Name="SettingsBars"
+                            MouseLeave="SettingsBars_OnMouseLeave"
+                            MouseEnter="UIElement_OnMouseEnter"
+                            Foreground="Aquamarine"
+                ></fa:FontAwesome>
         </Canvas>
 
         <Canvas x:Name="Contacts_Canvas"
                 Width="400"
-                Height="615"
+                Height="625"
                 Margin="0,125">
             <ListBox Width="400"
-                     Height="615">
+                     Height="625"
+                     Background="#22272e"
+                     BorderThickness="0,0,1,0"
+                     BorderBrush="Aquamarine">
 
             </ListBox>
         </Canvas>
@@ -55,11 +70,16 @@
                 Margin="400,40">
             <Border Width="800"
                     Height="85"
-                    Background="DarkSlateBlue"
-                    x:Name="Conctact_Info_Border"></Border>
-            <ListBox Margin="0,85"
+                    Background="#22272e"
+                    x:Name="Conctact_Info_Border"
+                    BorderThickness="0,0,0,1"
+                    BorderBrush="Aquamarine"
+                    ></Border>
+            <ListBox Margin="0,86"
                      Height="615"
-                     Width="800"></ListBox>
+                     Background="#2d333b"
+                     Width="800"    
+                     BorderThickness="0"></ListBox>
         </Canvas>
     </Canvas>
 </Window>

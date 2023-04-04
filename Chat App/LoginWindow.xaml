@@ -4,13 +4,200 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chat_App"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="800"
+        Title="LoginWindow" Height="550" Width="500"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
         WindowStartupLocation="CenterScreen">
-    <Grid>
-        
-    </Grid>
+    <Canvas>
+        <Border Height="550"
+                Width="500"
+                Background="#2d333b"
+                MouseLeftButtonDown="Draging_Signin_Window"></Border>
+        <fa:ImageAwesome Icon="Close"
+                         Foreground="#cdd9e5"
+                         Width="30"
+                         Height="30"
+                         Canvas.Left="460"
+                         Canvas.Top="10"
+                         MouseLeftButtonUp="Close_Sign_in_window">
+        </fa:ImageAwesome>
+
+        <Label Foreground="#cdd9e5"
+               Width="500"
+               Content="User Name"
+               FontSize="40"
+               HorizontalContentAlignment="Center"
+               Margin="0,95"></Label>
+        <TextBox Width="400"
+                 Height="50"
+                 Margin="50,160"
+                 Foreground="Aquamarine"
+                 MaxLength="22"
+                 FontSize="30"
+                 TextAlignment="Center"
+                 BorderThickness="0,0,0,2">
+            <TextBox.Template>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="Border"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <ScrollViewer 
+                            x:Name="PART_ContentHost"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Margin="0,0,0,0"
+                            Focusable="false"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Hidden"
+                            VerticalContentAlignment="Center"
+                        />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" TargetName="Border" Value="Aqua"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="False">
+                            <Setter Property="BorderBrush" TargetName="Border" Value="#cdd9e5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </TextBox.Template>
+        </TextBox>
+
+        <Label Foreground="#cdd9e5"
+               Width="500"
+               Content="Password"
+               FontSize="40"
+               HorizontalContentAlignment="Center"
+               Margin="0,245"></Label>
+
+        <PasswordBox Width="400"
+                     Margin="50,310"
+                     Height="50"
+                     FontSize="30"
+                     BorderThickness="0,0,0,2"
+                     Background="Transparent"
+                     Foreground="Aquamarine"
+                     MaxLength="15"
+                     BorderBrush="#cdd9e5"
+                     x:Name="Password_Login">
+            <PasswordBox.Template>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border x:Name="Border"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <ScrollViewer 
+                            x:Name="PART_ContentHost"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Margin="0,0,0,0"
+                            Focusable="false"
+                            Padding="10,0"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Hidden"
+                            VerticalContentAlignment="Center"
+                            
+                        />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" TargetName="Border" Value="Aqua"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="False">
+                            <Setter Property="BorderBrush" TargetName="Border" Value="#cdd9e5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </PasswordBox.Template>
+        </PasswordBox>
+
+        <TextBox Width="400"
+                     Margin="50,310"
+                     Height="50"
+                     FontSize="30"
+                     BorderThickness="0,0,0,2"
+                     Background="Transparent"
+                     Foreground="Aquamarine"
+                     MaxLength="15"
+                     BorderBrush="#cdd9e5"
+                     x:Name="TextBox_PasswordShow_Login">
+            <TextBox.Template>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="Border"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <ScrollViewer 
+                            x:Name="PART_ContentHost"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Margin="0,0,0,0"
+                            Focusable="false"
+                            Padding="10,0"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Hidden"
+                            VerticalContentAlignment="Center"
+                            
+                        />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" TargetName="Border" Value="Aqua"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="False">
+                            <Setter Property="BorderBrush" TargetName="Border" Value="#cdd9e5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </TextBox.Template>
+        </TextBox>
+
+        <Button Content="Sign in"
+                Width="400"
+                Height="50"
+                Margin="50,425"
+                BorderThickness="2"
+                BorderBrush="#cdd9e5"
+                Foreground="#cdd9e5"
+                FontSize="20"
+                Click="LoginClick"
+                Background="Transparent">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Canvas Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <Border Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                CornerRadius="6"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                x:Name="Border">
+
+                        </Border>
+                        <Label Height="50"
+                               Width="400"
+                               x:Name="Label"
+                               Content="{TemplateBinding Content}"
+                               HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center"
+                               Foreground="{TemplateBinding Foreground}"></Label>
+                    </Canvas>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="Aquamarine" TargetName="Border"></Setter>
+                            <Setter Property="Foreground" Value="Aquamarine" TargetName="Label"></Setter>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <fa:ImageAwesome Icon="Eye"
+                         Foreground="#cdd9e5"
+                         x:Name="ShowHidePAsswordButton"
+                         Width="40"
+                         Height="25"
+                         MouseLeftButtonUp="Show_Password_Button"
+                         Margin="405,325" HorizontalAlignment="Center" VerticalAlignment="Top">
+        </fa:ImageAwesome>
+    </Canvas>
 </Window>

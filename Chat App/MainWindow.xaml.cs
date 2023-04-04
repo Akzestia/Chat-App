@@ -37,5 +37,17 @@ namespace Chat_App
         {
             this.DragMove();
         }
+
+        private void UIElement_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            var color = (Color)ColorConverter.ConvertFromString("#cdd9e5");
+            var colorlast = new SolidColorBrush(color);
+            SettingsBars.Foreground = colorlast;
+        }
+
+        private void SettingsBars_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            SettingsBars.Foreground = Brushes.Aquamarine;
+        }
     }
 }
