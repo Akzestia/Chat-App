@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace Chat_App
 {
@@ -28,6 +29,7 @@ namespace Chat_App
         private void CloseWindowButtonClick(object sender, MouseButtonEventArgs e) //Closing window
         {
             this.Close();
+            
         }
 
         private void DragWindowOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) //Dragging window

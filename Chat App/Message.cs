@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Chat_App
 {
-    class Message
+    public class Message // Message class
     {
+
     }
 }
