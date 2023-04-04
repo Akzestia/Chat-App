@@ -4,8 +4,9 @@ using System.Data.Linq;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Chat_App.Entities;
 
-namespace Chat_App
+namespace Chat_App.Linq
 {
     public static class SqlMethods
     {
@@ -17,6 +18,16 @@ namespace Chat_App
             DataContext db = new DataContext(connectionstring);
             db.GetTable<User>().InsertOnSubmit(user);
             db.SubmitChanges();
+        }
+
+        public static void UpdateUser(User user)
+        {
+
+        }
+
+        public static void DeleteUser(User user)
+        {
+
         }
     }
 }

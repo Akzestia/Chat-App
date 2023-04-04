@@ -12,6 +12,6 @@ namespace Chat_App
 {
     public class TemplateSelector //Template Selector for messages in chat
     {
-        DataContext db = new DataContext("connectionstring");
+        
     }
 }

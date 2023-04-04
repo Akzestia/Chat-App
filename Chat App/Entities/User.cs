@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chat_App
+namespace Chat_App.Entities
 {
     [Table(Name = "Users")]
     public class User // User class
@@ -23,7 +23,7 @@ namespace Chat_App
         [Column]
         public string Contacts_String_Groups { get; set; }
 
-        public User() {}
+        public User() { }
 
         public User(int id, string name, string password)
         {

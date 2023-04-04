@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chat_App
+namespace Chat_App.Entities
 {
     public class Message // Message class
     {
