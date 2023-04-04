@@ -16,7 +16,7 @@
         <Border Width="1200" 
                 Height="750"
                 x:Name="Border"
-                Background="#222222"
+                Background="#2d333b"
                 MouseLeftButtonDown="DragWindowOnMouseLeftButtonDown"
         ></Border>
         <fa:ImageAwesome Icon="Close"
@@ -28,5 +28,33 @@
                          Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center"
         >
         </fa:ImageAwesome>
+        
+        <Canvas Width="400"
+                Height="85"
+                Margin="0,50"
+                x:Name="Search_Settings_Canvas"
+                >
+            <Border Width="400"
+                    Height="85"
+                    Background="#22272e"></Border>
+        </Canvas>
+
+        <Canvas x:Name="Contacts_Canvas"
+                Width="400"
+                Height="615"
+                Margin="0,135">
+            <ListBox Width="400"
+                     Height="615">
+
+            </ListBox>
+        </Canvas>
+
+        <Canvas x:Name="Chat_Canvas"
+                Width="800"
+                Height="700"    
+                Margin="400,50">
+            <Border Width="800"
+                    Height="90"></Border>
+        </Canvas>
     </Canvas>
 </Window>
