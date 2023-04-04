@@ -25,13 +25,13 @@
                          Height="30"
                          Canvas.Left="1160"
                          MouseLeftButtonUp="CloseWindowButtonClick"
-                         Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center"
+                         Canvas.Top="5" HorizontalAlignment="Left" VerticalAlignment="Center"
         >
         </fa:ImageAwesome>
         
         <Canvas Width="400"
                 Height="85"
-                Margin="0,50"
+                Margin="0,40"
                 x:Name="Search_Settings_Canvas"
                 >
             <Border Width="400"
@@ -42,7 +42,7 @@
         <Canvas x:Name="Contacts_Canvas"
                 Width="400"
                 Height="615"
-                Margin="0,135">
+                Margin="0,125">
             <ListBox Width="400"
                      Height="615">
 
@@ -52,9 +52,14 @@
         <Canvas x:Name="Chat_Canvas"
                 Width="800"
                 Height="700"    
-                Margin="400,50">
+                Margin="400,40">
             <Border Width="800"
-                    Height="90"></Border>
+                    Height="85"
+                    Background="DarkSlateBlue"
+                    x:Name="Conctact_Info_Border"></Border>
+            <ListBox Margin="0,85"
+                     Height="615"
+                     Width="800"></ListBox>
         </Canvas>
     </Canvas>
 </Window>
