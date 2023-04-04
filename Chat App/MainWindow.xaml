@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Chat_App"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Canvas>
 
-    </Grid>
+    </Canvas>
 </Window>
