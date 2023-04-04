@@ -24,5 +24,15 @@ namespace Chat_App
         {
             InitializeComponent();
         }
+
+        private void CloseWindowButtonClick(object sender, MouseButtonEventArgs e) //Closing window
+        {
+            this.Close();
+        }
+
+        private void DragWindowOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) //Dragging window
+        {
+            this.DragMove();
+        }
     }
 }
