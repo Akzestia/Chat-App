@@ -66,7 +66,7 @@
 
         <Canvas x:Name="Chat_Canvas"
                 Width="800"
-                Height="700"    
+                Height="710"    
                 Margin="400,40">
             <Border Width="800"
                     Height="85"
@@ -76,10 +76,14 @@
                     BorderBrush="Aquamarine"
                     ></Border>
             <ListBox Margin="0,86"
-                     Height="615"
+                     Height="550"
                      Background="#2d333b"
                      Width="800"    
                      BorderThickness="0"></ListBox>
+            <Border Width="800"
+                    Height="75"
+                    Background="#22272e"
+                    Margin="0,635,0,0"></Border>
         </Canvas>
     </Canvas>
 </Window>

@@ -21,11 +21,13 @@ namespace Chat_App
     /// </summary>
     public partial class LoginWindow : Window
     {
+        
         public LoginWindow()
         {
             
             InitializeComponent();
             TextBox_PasswordShow_Login.Visibility = Visibility.Hidden;
+            SignupCanvas.Visibility = Visibility.Hidden;
         }
 
         private void Close_Sign_in_window(object sender, MouseButtonEventArgs e) //Closing sign in window
@@ -66,6 +68,54 @@ namespace Chat_App
                 Password_Login.Visibility = Visibility.Visible;
                 ShowHidePAsswordButton.Icon = FontAwesomeIcon.Eye;
             }
+        }
+
+        private void CreateAccount_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            CreateAccount.Foreground = Brushes.Aquamarine;
+            CreateAccount.TextDecorations = TextDecorations.Underline;
+        }
+
+        private void CreateAccount_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            var color = (Color)ColorConverter.ConvertFromString("#cdd9e5");
+            var colorlast = new SolidColorBrush(color);
+            CreateAccount.Foreground = colorlast;
+            CreateAccount.TextDecorations = null;
+        }
+
+        private void CreateAccount_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            LoginCanvas.Visibility = Visibility.Hidden;
+            Password_Login.Password = "";
+            TextBox_PasswordShow_Login.Text = "";
+            UserNameLogin.Text = "";
+            SignupCanvas.Visibility = Visibility.Visible;
+        }
+
+        private void SignUpClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void BackToLogin_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            BackToLogin.Foreground = Brushes.Aquamarine;
+            BackToLogin.TextDecorations = TextDecorations.Underline;
+        }
+
+        private void BackToLogin_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            var color = (Color)ColorConverter.ConvertFromString("#cdd9e5");
+            var colorlast = new SolidColorBrush(color);
+            BackToLogin.Foreground = colorlast;
+            BackToLogin.TextDecorations = null;
+        }
+
+        private void BackToLogin_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            SignupCanvas.Visibility = Visibility.Hidden;
+            LoginCanvas.Visibility = Visibility.Visible;
         }
     }
 }
