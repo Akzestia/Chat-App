@@ -474,7 +474,7 @@
                          x:Name="ShowHidePAsswordButton_SignUp1"
                          Width="40"
                          Height="25"
-                         MouseLeftButtonUp="Show_Password_Button"
+                         MouseLeftButtonUp="ShowHidePAsswordButton_SignUp1_OnMouseLeftButtonUp"
                          Margin="405,260" HorizontalAlignment="Center" VerticalAlignment="Top">
             </fa:ImageAwesome>
             <fa:ImageAwesome Icon="Eye"
@@ -482,7 +482,7 @@
                              x:Name="ShowHidePAsswordButton_SignUp2"
                              Width="40"
                              Height="25"
-                             MouseLeftButtonUp="Show_Password_Button"
+                             MouseLeftButtonUp="ShowHidePAsswordButton_SignUp2_OnMouseLeftButtonUp"
                              Margin="405,380" HorizontalAlignment="Center" VerticalAlignment="Top">
             </fa:ImageAwesome>
 

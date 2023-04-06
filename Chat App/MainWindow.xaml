@@ -11,7 +11,38 @@
         AllowsTransparency="True"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
+        Loaded="MainWindow_OnLoaded"
         >
+    <Window.Resources>
+        <BeginStoryboard x:Key="ShowSettingsStoryBoard">
+            <Storyboard >
+                <ThicknessAnimation Storyboard.TargetName="Search_Settings_View"
+                                    Storyboard.TargetProperty="Margin"
+                                    To="0 40 0 0" Duration="0:0:0.3"></ThicknessAnimation>
+            </Storyboard>
+        </BeginStoryboard>
+        <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid x:Name="Grid">
+                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" 
+                                       Height="Auto" Fill="Transparent"/>
+                            <Border x:Name="Rectangle1" CornerRadius="5" HorizontalAlignment="Stretch" 
+                                    VerticalAlignment="Stretch" Width="Auto" Height="Auto" 
+                                    Background="Aquamarine"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Tag" Value="Horizontal">
+                                <Setter TargetName="Rectangle1" Property="Width" Value="Auto"/>
+                                <Setter TargetName="Rectangle1" Property="Height" Value="7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Canvas>
         <Border Width="1200" 
                 Height="750"
@@ -28,7 +59,7 @@
                          Canvas.Top="5" HorizontalAlignment="Left" VerticalAlignment="Center"
         >
         </fa:ImageAwesome>
-        
+
         <Canvas Width="400"
                 Height="85"
                 Margin="0,40"
@@ -47,8 +78,13 @@
                             x:Name="SettingsBars"
                             MouseLeave="SettingsBars_OnMouseLeave"
                             MouseEnter="UIElement_OnMouseEnter"
+                            MouseLeftButtonUp="SettingsBars_OnMouseLeftButtonUp"
                             Foreground="Aquamarine"
-                ></fa:FontAwesome>
+            >
+
+            </fa:FontAwesome>
+
+
         </Canvas>
 
         <Canvas x:Name="Contacts_Canvas"
@@ -83,7 +119,158 @@
             <Border Width="800"
                     Height="75"
                     Background="#22272e"
-                    Margin="0,635,0,0"></Border>
+                    x:Name="TXTBorderx"
+                    Margin="0,635"/>
+            <TextBox Width="700"
+                     Margin="15,642"
+                     Height="50"
+                     FontSize="30"
+                     BorderThickness="0,0,0,2"
+                     Background="Transparent"
+                     Foreground="Aquamarine"
+                     TextWrapping="Wrap"
+                     MaxLength="500"
+                     VerticalScrollBarVisibility="Auto"
+                     BorderBrush="#cdd9e5"
+                     x:Name="SendMEssageTextbox"
+                     TextChanged="SendMEssageTextbox_OnTextChanged">
+                <TextBox.Template>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="Border"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="#cdd9e5">
+                            <ScrollViewer 
+                                x:Name="PART_ContentHost"  Width="700" Height="{TemplateBinding Height}" Margin="0,0,0,0"
+                                Focusable="True"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto"
+                                VerticalContentAlignment="Center"
+                                BorderBrush="#cdd9e5"
+                            >
+                                <ScrollViewer.Resources>
+                                    <Style TargetType="ScrollBar">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                                    <Grid x:Name="GridRoot" Width="7" Background="{x:Null}">
+                                                        <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="False">
+                                                            <Track.Thumb>
+                                                                <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" 
+                                               Style="{DynamicResource ScrollThumbs}"/>
+                                                            </Track.Thumb>
+                                                            <Track.IncreaseRepeatButton>
+                                                                <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False"/>
+                                                            </Track.IncreaseRepeatButton>
+                                                            <Track.DecreaseRepeatButton>
+                                                                <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False"/>
+                                                            </Track.DecreaseRepeatButton>
+                                                        </Track>
+                                                    </Grid>
+
+                                                    <ControlTemplate.Triggers>
+
+
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed"/>
+                                                        </Trigger>
+                                                        <Trigger Property="Orientation" Value="Horizontal">
+                                                            <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                                                <Setter.Value>
+                                                                    <RotateTransform Angle="-90"/>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                                                <Setter.Value>
+                                                                    <RotateTransform Angle="-90"/>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Setter Property="Width" Value="Auto"/>
+                                                            <Setter Property="Height" Value="12"/>
+                                                            <Setter TargetName="Thumb" Property="Tag" Value="Horizontal"/>
+                                                            <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand"/>
+                                                            <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ScrollViewer.Resources>
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" TargetName="Border" Value="Aqua"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="False">
+                                <Setter Property="BorderBrush" TargetName="Border" Value="#cdd9e5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </TextBox.Template>
+            </TextBox>
+            <fa:ImageAwesome Icon="Telegram"
+                             Foreground="Aquamarine"
+                             Width="50"
+                             Height="50"
+                             Margin="730,645"
+                             x:Name="SendMessage"
+                             MouseEnter="SendMessage_OnMouseEnter"
+                             MouseLeave="SendMessage_OnMouseLeave"
+                             MouseLeftButtonDown="SendMessage_OnMouseLeftButtonDown">
+
+            </fa:ImageAwesome>
+
+
+        </Canvas>
+
+        <Canvas Width="400"
+                Height="85"
+                Margin="0,40"
+                x:Name="Search_Settings_View" d:IsHidden="True"
+        >
+            <Border Width="360"
+                    Height="710"
+                    Background="#22272e"
+                    ></Border>
+            <Border Margin="360,0"
+                    Width="1200"
+                    Height="710"
+                    x:Name="TransparentBorder"
+                    Background="Transparent"
+                    MouseLeftButtonDown="TransparentBorder_OnMouseLeftButtonDown"
+            >
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="MouseLeftButtonDown">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ThicknessAnimation Storyboard.TargetName="Search_Settings_View"
+                                                    Storyboard.TargetProperty="Margin"
+                                                    To="-360 40 0 0" Duration="0:0:0.3"></ThicknessAnimation>
+                                <ColorAnimation Storyboard.TargetName="TransparentBorder"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="Transparent" Duration="0:0:0"></ColorAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+            </Border>
+            <Border Width="70"
+                    Height="70"
+                    CornerRadius="100"
+                    x:Name="AvatarBorder"
+                    BorderThickness="2"
+                    BorderBrush="#2d333b"
+                    Margin="20"
+            >
+
+            </Border>
+
+            <Label Content="User" Foreground="White"
+                   x:Name="userName"
+                   FontSize="20" Margin="30,100"/>
         </Canvas>
     </Canvas>
 </Window>
