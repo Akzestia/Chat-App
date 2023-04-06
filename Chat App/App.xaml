@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Chat_App"
              StartupUri="LoginWindow.xaml">
     <Application.Resources>
-         
+        <local:TemplateSelector 
+            x:Key="MessageListDataTemplateSelector">
+        </local:TemplateSelector>
+        <local:ContainerSelector 
+            x:Key="MessageListContainerTemplateSelector">
+        </local:ContainerSelector>
     </Application.Resources>
 </Application>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,12 @@ namespace Chat_App
     /// </summary>
     public partial class MainWindow : Window
     {
+        ObservableCollection<Message> messages = new ObservableCollection<Message>();
         public static User CurrentUser = new User();
+        public static User CurrentReceiver = new User();
         public MainWindow()
         {
+            this.DataContext = this;
             InitializeComponent();
             Search_Settings_View.Visibility = Visibility.Hidden;
             Search_Settings_View.Margin = new Thickness(-360, 40, 0, 0);
@@ -62,6 +66,22 @@ namespace Chat_App
         {
             try
             {
+                messages = new ObservableCollection<Message>(new List<Message>() { new Message("Hello" +
+                    "fuouifb9eqgfy9qwf9wq9fwq79fw79qf97wqf79eqf79wq79fvqew9vfwqv9fywqf" +
+                    "feuoqfuebqufbequ0fb0eqwbf80\nwqbf80q\neb80fbeq08f80eqdfh08wqhd08w 0fhw08 f80qweh fg0h q08f " +
+                    "g iejg heq g79gf97q 9 feq f9qf97 gd79 79", "uwu", "xx"),
+                    new Message("Hello" +
+                                "fuouifb9eqbf80wqbf8fefbiyeqvfyieq" +
+                                "feqbpufbequofvuoeqvfuoeqvofeq" +
+                                "feqfbequofueoqfuoeqvuf0vquo0fqe" +
+                                "" +
+                                "eqfqebfueqfuovequofvbequofbuoeqvfuoeqbfoueq" +
+                                "fwqbfouwqvofuqwvyuofvyi97 gd79 79", "uwus", "xx"),
+                    new Message("Hello" +
+                                "fuouifb9eqgfy", "uwus", "xx")
+                });
+                Chat.ItemsSource = messages;
+
                 dir = dir.Parent?.Parent?.Parent;
                 userName.Content = CurrentUser.Name;
                 if (CurrentUser.Avatar == null)
@@ -112,6 +132,13 @@ namespace Chat_App
 
         private void SendMessage_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            messages.Add(new Message(SendMEssageTextbox.Text, CurrentUser.Name, "rec"));
+            Chat.ItemsSource = messages;
+
+            Chat.SelectedIndex = Chat.Items.Count - 1;
+            Chat.ScrollIntoView(Chat.SelectedItem);
+            Chat.SelectedItem = null;
+
             SendMEssageTextbox.Text = "";
         }
 
@@ -153,6 +180,33 @@ namespace Chat_App
             
             
             linecount1 = SendMEssageTextbox.LineCount;
+        }
+
+        private void FrameworkElement_OnInitialized(object? sender, EventArgs e)
+        {
+            TextBlock? tempTextBlock = sender as TextBlock;
+            tempTextBlock.Height -= 10;
+            tempTextBlock.Width -= 40;
+            tempTextBlock.Margin = new Thickness(tempTextBlock.Margin.Left + 10, tempTextBlock.Margin.Top + 10,
+                tempTextBlock.Margin.Right, tempTextBlock.Margin.Bottom);
+        }
+
+        private void Border_OnInitialized(object? sender, EventArgs e)
+        {
+            Border? br = sender as Border;
+            br.Width = br.Width + 20;
+        }
+        public double heightx = 0;
+        private void GetHeight(object? sender, EventArgs e)
+        {
+            TextBox? tt = sender as TextBox;
+            heightx = tt.Height;
+        }
+
+        private void Border_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Border? br = sender as Border;
+            br.Height = br.Height + 20;
         }
     }
 }

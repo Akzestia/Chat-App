@@ -18,20 +18,21 @@ namespace Chat_App.Entities
 
         public Message(string content, string sender, string receiver)
         {
-            this.Id = id;
-            this.Content = content;
+            Timestring = DateTime.Now.ToShortTimeString();
+            this.Content = content + "\n\n" + Timestring;
             this.Sender = sender;
             this.Receiver = receiver;
-            Timestring = DateTime.Now.ToShortTimeString();
+            
         }
 
         public Message(int id, string content, string sender, string receiver)
         {
+            Timestring = DateTime.Now.ToShortTimeString();
             this.Id = id;
-            this.Content = content;
+            this.Content = content + "\n\n" + Timestring;
             this.Sender = sender;
             this.Receiver = receiver;
-            Timestring = DateTime.Now.ToShortTimeString();
+            
         }
     }
 }
