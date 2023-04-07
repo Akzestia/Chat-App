@@ -236,8 +236,9 @@
                      Height="625"
                      Background="#22272e"
                      BorderThickness="0,0,1,0"
-                     BorderBrush="Aquamarine">
-
+                     BorderBrush="Aquamarine"
+                     x:Name="ContactList"
+                     SelectionChanged="Selector_OnSelectionChanged">
             </ListBox>
         </Canvas>
 
@@ -252,6 +253,10 @@
                     BorderThickness="0,0,0,1"
                     BorderBrush="Aquamarine"
                     ></Border>
+            <Label Foreground="Aquamarine" FontSize="20"
+                   Margin="22"
+                   Content="Receiver"
+                   x:Name="ReceiverNameLabel"></Label>
 
             <ListBox Margin="0,86"
                      Height="550"
@@ -484,7 +489,116 @@
 
             <Label Content="User" Foreground="White"
                    x:Name="userName"
-                   FontSize="20" Margin="30,100"/>
+                   FontSize="20" Margin="20,100"/>
+            <Button x:Name="Add_Contact_Button"
+                    Width="300"
+                    Height="50"
+                    Margin="20,150"
+                    Content="Add Contact"
+                    Foreground="Aquamarine"
+                    Background="#2d333b">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                CornerRadius="7"
+                                x:Name="Border"
+                                Background="{TemplateBinding Background}">
+                            <Label Content="{TemplateBinding Content}"
+                                   x:Name="PART_ContentHost"
+                                   Foreground="Aquamarine"
+                                   Width="215"
+                                   Height="{TemplateBinding Height}"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   FontSize="15"
+                                   Margin="-20,0">
+                            </Label>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" TargetName="Border" Value="#2d333b"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="#2d444b"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="Create_Group_Button"
+                    Width="300"
+                    Height="50"
+                    Margin="20,220"
+                    Content="Create new Group"
+                    Foreground="Aquamarine"
+                    Background="#2d333b">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                CornerRadius="7"
+                                x:Name="Border"
+                                Background="{TemplateBinding Background}">
+                            <Label Content="{TemplateBinding Content}"
+                                   x:Name="PART_ContentHost"
+                                   Foreground="Aquamarine"
+                                   Width="215"
+                                   Height="{TemplateBinding Height}"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   FontSize="15"
+                                   Margin="-20,0">
+                            </Label>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" TargetName="Border" Value="#2d333b"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="#2d444b"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button x:Name="BlackList_Button"
+                    Width="300"
+                    Height="50"
+                    Margin="20,290"
+                    Content="Blacklist"
+                    Foreground="Aquamarine"
+                    Background="#2d333b">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                CornerRadius="7"
+                                x:Name="Border"
+                                Background="{TemplateBinding Background}">
+                            <Label Content="{TemplateBinding Content}"
+                                   x:Name="PART_ContentHost"
+                                   Foreground="Aquamarine"
+                                   Width="215"
+                                   Height="{TemplateBinding Height}"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   FontSize="15"
+                                   Margin="-20,0">
+                            </Label>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" TargetName="Border" Value="#2d333b"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="#2d444b"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Canvas>
     </Canvas>
 </Window>

@@ -76,24 +76,14 @@ namespace Chat_App
             try
             {
                 localPort = CurrentUser.LocalPort;
-                messages = new ObservableCollection<Message>(new List<Message>() { new Message("Hello" +
-                    "fuouifb9eqgfy9qwf9wq9fwq79fw79qf97wqf79eqf79wq79fvqew9vfwqv9fywqf" +
-                    "feuoqfuebqufbequ0fb0eqwbf80\nwqbf80q\neb80fbeq08f80eqdfh08wqhd08w 0fhw08 f80qweh fg0h q08f " +
-                    "g iejg heq g79gf97q 9 feq f9qf97 gd79 79", "uwu", "xx"),
-                    new Message("Hello" +
-                                "fuouifb9eqbf80wqbf8fefbiyeqvfyieq" +
-                                "feqbpufbequofvuoeqvfuoeqvofeq" +
-                                "feqfbequofueoqfuoeqvuf0vquo0fqe" +
-                                "" +
-                                "eqfqebfueqfuovequofvbequofbuoeqvfuoeqbfoueq" +
-                                "fwqbfouwqvofuqwvyuofvyi97 gd79 79", "uwus", "xx"),
-                    new Message("Hello" +
-                                "fuouifb9eqgfy", "uwus", "xx")
-                });
                 Chat.ItemsSource = messages;
-                Chat.SelectedIndex = Chat.Items.Count - 1;
-                Chat.ScrollIntoView(Chat.SelectedItem);
-                Chat.SelectedItem = null;
+                if (messages.Count > 0)
+                {
+                    Chat.SelectedIndex = Chat.Items.Count - 1;
+                    Chat.ScrollIntoView(Chat.SelectedItem);
+                    Chat.SelectedItem = null;
+                }
+               
                 dir = dir.Parent?.Parent?.Parent;
                 userName.Content = CurrentUser.Name;
                 if (CurrentUser.Avatar == null)
@@ -109,21 +99,10 @@ namespace Chat_App
                     AvatarBorder.Background = new ImageBrush(bp);
                 }
 
-                if (CurrentUser.Name == "1")
-                {
-                    DataContext db = new DataContext(SqlMethods.connectionstring);
-                    CurrentReceiver = db.GetTable<User>().ToList()[1];
-                }
-                else
-                {
-                    DataContext db = new DataContext(SqlMethods.connectionstring);
-                    CurrentReceiver = db.GetTable<User>().ToList()[0];
-                }
-                CurrentReceiver.InitUSerPort();
-                remotePort = CurrentReceiver.LocalPort;
                 remoteIPAddress = IPAddress.Parse("127.0.0.1");
                 Thread tRec = new Thread(Receiver);
                 tRec.Start();
+                ReceiverNameLabel.Content = CurrentReceiver.Name;
             }
             catch (Exception exception)
             {
@@ -228,15 +207,18 @@ namespace Chat_App
         
         private void SendMessage_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (SendMEssageTextbox.Text.Length > 0)
+            {
+                Send(SendMEssageTextbox.Text);
+
+                messages.Add(new Message(SendMEssageTextbox.Text, CurrentUser.Name, CurrentReceiver.Name));
+                Chat.ItemsSource = messages;
+                Chat.SelectedIndex = Chat.Items.Count - 1;
+                Chat.ScrollIntoView(Chat.SelectedItem);
+                Chat.SelectedItem = null;
+                SendMEssageTextbox.Text = "";
+            }
             
-            Send(SendMEssageTextbox.Text);
-           
-            messages.Add(new Message(SendMEssageTextbox.Text, CurrentUser.Name, CurrentReceiver.Name));
-            Chat.ItemsSource = messages;
-            Chat.SelectedIndex = Chat.Items.Count - 1;
-            Chat.ScrollIntoView(Chat.SelectedItem);
-            Chat.SelectedItem = null;
-            SendMEssageTextbox.Text = "";
         }
 
         private int linecount1 = 0;
@@ -308,7 +290,7 @@ namespace Chat_App
 
         private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Return)
+            if (e.Key == Key.Return && SendMEssageTextbox.Text.Length > 0)
             {
                 Send(SendMEssageTextbox.Text);
 
@@ -319,6 +301,11 @@ namespace Chat_App
                 Chat.SelectedItem = null;
                 SendMEssageTextbox.Text = "";
             }
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
         }
     }
 }

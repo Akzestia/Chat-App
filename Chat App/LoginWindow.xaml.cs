@@ -126,7 +126,7 @@ namespace Chat_App
         }
 
 
-        public async Task signupnewuser()
+        public async Task<int> signupnewuser()
         {
             DataContext db = new DataContext(SqlMethods.connectionstring);
 
@@ -147,17 +147,20 @@ namespace Chat_App
                 db.GetTable<User>().InsertOnSubmit(MainWindow.CurrentUser);
                 db.SubmitChanges();
                 MainWindow.CurrentUser.InitUSerPort();
+                return 1;
 
             }
             else
             {
                 if (k == 1) //User Name is already taken
                 {
-
+                    MessageBox.Show("This user name is already taken!");
+                    return -1;
                 }
                 else //Incorrect password
                 {
-
+                    MessageBox.Show("pls enter same passwords");
+                    return -1;
                 }
             }
             await Task.Delay(1);
@@ -165,14 +168,18 @@ namespace Chat_App
 
         private async void SignUpClick(object sender, RoutedEventArgs e)
         {
-            await signupnewuser();
-            Thread startchatwindowthread = new Thread(() =>
+            int t = await signupnewuser();
+            if (t == 1)
             {
-                this.Dispatcher.Invoke(() => { mn.Show(); });
+                Thread startchatwindowthread = new Thread(() =>
+                {
+                    this.Dispatcher.Invoke(() => { mn.Show(); });
 
-            });
-            startchatwindowthread.Start();
-            this.Close();
+                });
+                startchatwindowthread.Start();
+                this.Close();
+            }
+          
         }
 
         private void BackToLogin_OnMouseEnter(object sender, MouseEventArgs e)
