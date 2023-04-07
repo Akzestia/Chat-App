@@ -49,6 +49,7 @@ namespace Chat_App
         {
             try
             {
+                
                 DataContext db = new DataContext(SqlMethods.connectionstring);
                 var temp = db.GetTable<User>();
                 int k = 0;
@@ -58,6 +59,7 @@ namespace Chat_App
                     {
                         k = 1;
                         MainWindow.CurrentUser = VARIABLE;
+                        MainWindow.CurrentUser.InitUSerPort();
                         Thread t = new Thread(() =>
                         {
                             this.Dispatcher.Invoke(() => { mn.Show(); });
@@ -144,7 +146,8 @@ namespace Chat_App
                 MainWindow.CurrentUser = new User(UserNameSignUp.Text, Password_SignUp.Password);
                 db.GetTable<User>().InsertOnSubmit(MainWindow.CurrentUser);
                 db.SubmitChanges();
-            
+                MainWindow.CurrentUser.InitUSerPort();
+
             }
             else
             {

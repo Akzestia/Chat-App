@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Server"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
+        Loaded="MainWindow_OnLoaded"
         WindowStyle="None"
         Background="Transparent"
         >

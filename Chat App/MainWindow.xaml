@@ -12,6 +12,7 @@
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
         Loaded="MainWindow_OnLoaded"
+        KeyDown="MainWindow_OnKeyDown"
         >
     <Window.Resources>
         <BeginStoryboard x:Key="ShowSettingsStoryBoard">
