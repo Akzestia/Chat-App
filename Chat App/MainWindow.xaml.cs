@@ -24,6 +24,9 @@ using Message = Chat_App.Entities.Message;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Microsoft.EntityFrameworkCore.Update;
+using Microsoft.Win32;
+using System.Security.Cryptography;
 
 namespace Chat_App
 {
@@ -36,6 +39,7 @@ namespace Chat_App
         private static int remotePort;
         private static int localPort;
         ObservableCollection<Message> messages = new ObservableCollection<Message>();
+        ObservableCollection<User> users_Contacts = new ObservableCollection<User>();
         public static User CurrentUser = new User();
         public static User CurrentReceiver = new User();
         public MainWindow()
@@ -45,6 +49,9 @@ namespace Chat_App
             Search_Settings_View.Visibility = Visibility.Hidden;
             Search_Settings_View.Margin = new Thickness(-360, 40, 0, 0);
             TransparentBorder.Background = new SolidColorBrush(Color.FromArgb(200, 0, 0, 0));
+            Add_User_Argb.Background = new SolidColorBrush(Color.FromArgb(200, 0, 0, 0));
+            Add_User_Argb.Visibility = Visibility.Hidden;
+            Add_Contact_Border.Visibility = Visibility.Hidden;
         }
 
         private void CloseWindowButtonClick(object sender, MouseButtonEventArgs e) //Closing window
@@ -75,15 +82,16 @@ namespace Chat_App
         {
             try
             {
+                users_Contacts = new ObservableCollection<User>(new List<User>() { CurrentUser });
                 localPort = CurrentUser.LocalPort;
                 Chat.ItemsSource = messages;
+                ContactList.ItemsSource = users_Contacts;
                 if (messages.Count > 0)
                 {
                     Chat.SelectedIndex = Chat.Items.Count - 1;
                     Chat.ScrollIntoView(Chat.SelectedItem);
                     Chat.SelectedItem = null;
                 }
-               
                 dir = dir.Parent?.Parent?.Parent;
                 userName.Content = CurrentUser.Name;
                 if (CurrentUser.Avatar == null)
@@ -305,7 +313,133 @@ namespace Chat_App
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            try
+            {
+                User u = (User)ContactList.SelectedItem;
+                u.InitUSerPort();
+                remotePort = u.LocalPort;
+                ReceiverNameLabel.Content = u.Name;
+            }
+            catch (Exception exception)
+            {
+               
+            }
             
+        }
+
+        private int uu = 0;
+        private void FrameworkElement_OnInitializedBorder(object? sender, EventArgs e)
+        {
+            Border? b = sender as Border;
+            BitmapImage bp = new BitmapImage();
+            bp.BeginInit();
+            bp.StreamSource = new System.IO.MemoryStream(users_Contacts[uu].Avatar);
+            bp.EndInit();
+            b.Background = new ImageBrush(bp);
+            uu++;
+        }
+
+        private void AvatarBorder_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "png; jpg|*.png; *.jpg";
+            ofd.ShowDialog();
+            try
+            {
+                BitmapImage bp = new BitmapImage();
+                bp.BeginInit();
+                bp.StreamSource = new System.IO.MemoryStream(File.ReadAllBytes(ofd.FileName));
+                bp.EndInit();
+                AvatarBorder.Background = new ImageBrush(bp);
+                DataContext db = new DataContext(SqlMethods.connectionstring);
+                var t = db.GetTable<User>().ToList();
+                for (int i = 0; i < t.Count; i++)
+                {
+                    if (t[i].Name == CurrentUser.Name)
+                    {
+                        t[i].Avatar = File.ReadAllBytes(ofd.FileName);
+                        db.SubmitChanges();
+                        break;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+            }
+
+        }
+
+        private void Add_Contact_Button_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void SearchContactButton_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private void Add_Contact_Button_OnGotMouseCapture(object sender, MouseEventArgs e)
+        {
+            Add_User_Argb.Visibility = Visibility.Visible;
+            Add_Contact_Border.Visibility = Visibility.Visible;
+        }
+
+        private void Add_User_Argb_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Add_User_Argb.Visibility = Visibility.Hidden;
+            Add_Contact_Border.Visibility = Visibility.Hidden;
+            SearchUsertxt.Text = "";
+        }
+
+        private void SearchContactButton_OnGotMouseCapture(object sender, MouseEventArgs e)
+        {
+            if (SearchUsertxt.Text.Length > 0)
+            {
+                DataContext db = new DataContext(SqlMethods.connectionstring);
+                var t = db.GetTable<User>().ToList();
+                int gsd = 0;
+                foreach (var VARIABLE in t)
+                {
+                    if (VARIABLE.Name == SearchUsertxt.Text)
+                    {
+                        int fg = 0;
+                        foreach (var VARIABLE2 in users_Contacts)
+                        {
+                            if (VARIABLE2.Name == VARIABLE.Name)
+                            {
+                                fg = 1;
+                                break;
+                            }
+                        }
+
+                        if (fg == 1)
+                        {
+                            gsd = 1;
+                            MessageBox.Show("U already have this contact");
+                        }
+                        else
+                        {
+                            gsd = 1;
+                            users_Contacts.Add(VARIABLE);
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                ContactList.ItemsSource = users_Contacts;
+                            });
+                            Add_User_Argb.Visibility = Visibility.Hidden;
+                            Add_Contact_Border.Visibility = Visibility.Hidden;
+                            SearchUsertxt.Text = "";
+                        }
+                        break;
+                    }
+                }
+
+                if (gsd == 0)
+                {
+                    MessageBox.Show("Nothing was found");
+                }
+            }
+           
         }
     }
 }

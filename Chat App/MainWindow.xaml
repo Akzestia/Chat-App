@@ -183,6 +183,23 @@
             <Setter Property="IsSelected" Value="False"/>
             <Setter Property="IsEnabled" Value="False"></Setter>
         </Style>
+
+        <DataTemplate x:Key="UserContacTemplate">
+            <Canvas Width="400"
+                    Height="90">
+                <Border Width="70"
+                        Height="70"
+                        Margin="10,10"
+                        BorderBrush="Aquamarine"
+                        BorderThickness="2"
+                        CornerRadius="100"
+                        Initialized="FrameworkElement_OnInitializedBorder">
+                </Border>
+                <Label Content="{Binding Path=Name}" Foreground="Aquamarine"
+                       FontSize="24"
+                       Margin="85,23"></Label>
+            </Canvas>
+        </DataTemplate>
     </Window.Resources>
     <Canvas>
         <Border Width="1200" 
@@ -238,6 +255,7 @@
                      BorderThickness="0,0,1,0"
                      BorderBrush="Aquamarine"
                      x:Name="ContactList"
+                     ItemTemplate="{StaticResource UserContacTemplate}"
                      SelectionChanged="Selector_OnSelectionChanged">
             </ListBox>
         </Canvas>
@@ -448,7 +466,7 @@
         <Canvas Width="400"
                 Height="85"
                 Margin="0,40"
-                x:Name="Search_Settings_View" d:IsHidden="True"
+                x:Name="Search_Settings_View"
         >
             <Border Width="360"
                     Height="710"
@@ -483,11 +501,12 @@
                     BorderThickness="2"
                     BorderBrush="#2d333b"
                     Margin="20"
+                    MouseLeftButtonDown="AvatarBorder_OnMouseLeftButtonDown"
             >
 
             </Border>
 
-            <Label Content="User" Foreground="White"
+            <Label Content="User" Foreground="Aquamarine"
                    x:Name="userName"
                    FontSize="20" Margin="20,100"/>
             <Button x:Name="Add_Contact_Button"
@@ -496,7 +515,9 @@
                     Margin="20,150"
                     Content="Add Contact"
                     Foreground="Aquamarine"
-                    Background="#2d333b">
+                    Background="#2d333b"
+                    MouseLeftButtonDown="Add_Contact_Button_OnMouseLeftButtonDown"
+                    GotMouseCapture="Add_Contact_Button_OnGotMouseCapture">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Width="{TemplateBinding Width}"
@@ -504,16 +525,24 @@
                                 CornerRadius="7"
                                 x:Name="Border"
                                 Background="{TemplateBinding Background}">
-                            <Label Content="{TemplateBinding Content}"
-                                   x:Name="PART_ContentHost"
-                                   Foreground="Aquamarine"
-                                   Width="215"
-                                   Height="{TemplateBinding Height}"
-                                   VerticalContentAlignment="Center"
-                                   HorizontalContentAlignment="Left"
-                                   FontSize="15"
-                                   Margin="-20,0">
-                            </Label>
+                            <Canvas Width="300"
+                                    Height="50">
+                                <Label Content="{TemplateBinding Content}"
+                                       x:Name="PART_ContentHost"
+                                       Foreground="Aquamarine"
+                                       Width="215"
+                                       Height="50"
+                                       VerticalContentAlignment="Center"
+                                       HorizontalContentAlignment="Left"
+                                       FontSize="15"
+                                       Margin="50,0">
+                                </Label>
+                                <fa:ImageAwesome Icon="PlusCircle" Foreground="Aquamarine"
+                                                 Width="40"
+                                                 Height="40"
+                                                 Margin="5"></fa:ImageAwesome>
+                            </Canvas>
+                          
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="False">
@@ -540,16 +569,23 @@
                                 CornerRadius="7"
                                 x:Name="Border"
                                 Background="{TemplateBinding Background}">
-                            <Label Content="{TemplateBinding Content}"
-                                   x:Name="PART_ContentHost"
-                                   Foreground="Aquamarine"
-                                   Width="215"
-                                   Height="{TemplateBinding Height}"
-                                   VerticalContentAlignment="Center"
-                                   HorizontalContentAlignment="Left"
-                                   FontSize="15"
-                                   Margin="-20,0">
-                            </Label>
+                            <Canvas Width="300"
+                                    Height="50">
+                                <Label Content="{TemplateBinding Content}"
+                                       x:Name="PART_ContentHost"
+                                       Foreground="Aquamarine"
+                                       Width="215"
+                                       Height="50"
+                                       VerticalContentAlignment="Center"
+                                       HorizontalContentAlignment="Left"
+                                       FontSize="15"
+                                       Margin="50,0">
+                                </Label>
+                                <fa:ImageAwesome Icon="AddressBook" Foreground="Aquamarine"
+                                                 Width="40"
+                                                 Height="40"
+                                                 Margin="5"></fa:ImageAwesome>
+                            </Canvas>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="False">
@@ -577,16 +613,23 @@
                                 CornerRadius="7"
                                 x:Name="Border"
                                 Background="{TemplateBinding Background}">
-                            <Label Content="{TemplateBinding Content}"
-                                   x:Name="PART_ContentHost"
-                                   Foreground="Aquamarine"
-                                   Width="215"
-                                   Height="{TemplateBinding Height}"
-                                   VerticalContentAlignment="Center"
-                                   HorizontalContentAlignment="Left"
-                                   FontSize="15"
-                                   Margin="-20,0">
-                            </Label>
+                            <Canvas Width="300"
+                                    Height="50">
+                                <Label Content="{TemplateBinding Content}"
+                                       x:Name="PART_ContentHost"
+                                       Foreground="Aquamarine"
+                                       Width="215"
+                                       Height="50"
+                                       VerticalContentAlignment="Center"
+                                       HorizontalContentAlignment="Left"
+                                       FontSize="15"
+                                       Margin="50,0">
+                                </Label>
+                                <fa:ImageAwesome Icon="Lock" Foreground="Aquamarine"
+                                                 Width="40"
+                                                 Height="40"
+                                                 Margin="5"></fa:ImageAwesome>
+                            </Canvas>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="False">
@@ -599,6 +642,156 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+
+            <Border Width="1200" Height="710"
+                    x:Name="Add_User_Argb"
+                    MouseLeftButtonDown="Add_User_Argb_OnMouseLeftButtonDown"></Border>
+            <Border Width="400"
+                    Height="200"
+                    Margin="500,230"
+                    CornerRadius="20"
+                    Background="#22272e"
+                    x:Name="Add_Contact_Border">
+                <Canvas Width="400"
+                        Height="200">
+                    <Label Content="Enter user name"
+                           FontSize="20"
+                           Width="400"
+                           Margin="0,20"
+                           HorizontalContentAlignment="Center"
+                           Foreground="Aquamarine"></Label>
+                    <TextBox Width="370"
+                     Margin="15,60"
+                     Height="50"
+                     FontSize="30"
+                     BorderThickness="0,0,0,2"
+                     Background="Transparent"
+                     Foreground="Aquamarine"
+                     MaxLength="22"
+                     VerticalScrollBarVisibility="Auto"
+                     BorderBrush="#cdd9e5"
+                     x:Name="SearchUsertxt"
+                     TextChanged="SendMEssageTextbox_OnTextChanged">
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                <Border x:Name="Border"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="#cdd9e5">
+                                    <ScrollViewer 
+                                x:Name="PART_ContentHost"  Width="700" Height="{TemplateBinding Height}" Margin="0,0,0,0"
+                                Focusable="True"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto"
+                                VerticalContentAlignment="Center"
+                                BorderBrush="#cdd9e5"
+                            >
+                                        <ScrollViewer.Resources>
+                                            <Style TargetType="ScrollBar">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                                            <Grid x:Name="GridRoot" Width="7" Background="{x:Null}">
+                                                                <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="False">
+                                                                    <Track.Thumb>
+                                                                        <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" 
+                                               Style="{DynamicResource ScrollThumbs}"/>
+                                                                    </Track.Thumb>
+                                                                    <Track.IncreaseRepeatButton>
+                                                                        <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False"/>
+                                                                    </Track.IncreaseRepeatButton>
+                                                                    <Track.DecreaseRepeatButton>
+                                                                        <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False"/>
+                                                                    </Track.DecreaseRepeatButton>
+                                                                </Track>
+                                                            </Grid>
+
+                                                            <ControlTemplate.Triggers>
+
+
+                                                                <Trigger Property="IsEnabled" Value="false">
+                                                                    <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed"/>
+                                                                </Trigger>
+                                                                <Trigger Property="Orientation" Value="Horizontal">
+                                                                    <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                                                        <Setter.Value>
+                                                                            <RotateTransform Angle="-90"/>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                                                        <Setter.Value>
+                                                                            <RotateTransform Angle="-90"/>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="Width" Value="Auto"/>
+                                                                    <Setter Property="Height" Value="12"/>
+                                                                    <Setter TargetName="Thumb" Property="Tag" Value="Horizontal"/>
+                                                                    <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand"/>
+                                                                    <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ScrollViewer.Resources>
+                                    </ScrollViewer>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter Property="BorderBrush" TargetName="Border" Value="Aqua"/>
+                                    </Trigger>
+                                    <Trigger Property="IsFocused" Value="False">
+                                        <Setter Property="BorderBrush" TargetName="Border" Value="#cdd9e5"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                    <Button x:Name="SearchContactButton"
+                    Width="300"
+                    Height="50"
+                    Margin="46,130"
+                    Content="Add Contact"
+                    Foreground="Aquamarine"
+                    Background="#2d333b"
+                    GotMouseCapture="SearchContactButton_OnGotMouseCapture"
+                    MouseLeftButtonDown="SearchContactButton_OnMouseLeftButtonDown">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                CornerRadius="7"
+                                x:Name="Border"
+                                Background="{TemplateBinding Background}">
+                                    <Canvas Width="300"
+                                    Height="50">
+                                        <Label Content="{TemplateBinding Content}"
+                                       x:Name="PART_ContentHost"
+                                       Foreground="Aquamarine"
+                                       Width="300"
+                                       Height="50"
+                                       VerticalContentAlignment="Center"
+                                       HorizontalContentAlignment="Center"
+                                       FontSize="15"
+                                       Margin="0,0">
+                                        </Label>
+                                    </Canvas>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="False">
+                                        <Setter Property="Background" TargetName="Border" Value="#2d333b"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" TargetName="Border" Value="#2d444b"></Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Canvas>
+            </Border>
         </Canvas>
     </Canvas>
 </Window>
