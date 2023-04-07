@@ -255,8 +255,10 @@
                      BorderThickness="0,0,1,0"
                      BorderBrush="Aquamarine"
                      x:Name="ContactList"
+                     ScrollViewer.CanContentScroll="False"
                      ItemTemplate="{StaticResource UserContacTemplate}"
-                     SelectionChanged="Selector_OnSelectionChanged">
+                     SelectionChanged="Selector_OnSelectionChanged"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             </ListBox>
         </Canvas>
 
@@ -466,7 +468,7 @@
         <Canvas Width="400"
                 Height="85"
                 Margin="0,40"
-                x:Name="Search_Settings_View"
+                x:Name="Search_Settings_View" d:IsHidden="True"
         >
             <Border Width="360"
                     Height="710"

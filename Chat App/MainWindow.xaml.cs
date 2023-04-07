@@ -38,6 +38,7 @@ namespace Chat_App
         private static IPAddress remoteIPAddress;
         private static int remotePort;
         private static int localPort;
+        List<MessagesList> mglist = new List<MessagesList>();
         ObservableCollection<Message> messages = new ObservableCollection<Message>();
         ObservableCollection<User> users_Contacts = new ObservableCollection<User>();
         public static User CurrentUser = new User();
@@ -82,7 +83,6 @@ namespace Chat_App
         {
             try
             {
-                users_Contacts = new ObservableCollection<User>(new List<User>() { CurrentUser });
                 localPort = CurrentUser.LocalPort;
                 Chat.ItemsSource = messages;
                 ContactList.ItemsSource = users_Contacts;
@@ -162,19 +162,37 @@ namespace Chat_App
                     string returnData = Encoding.UTF8.GetString(receiverButes);
                     try
                     {
-                        this.Dispatcher.Invoke(async () =>
+                        for(int i = 0; i < mglist.Count; i++)
                         {
-                            messages.Add(new Message(returnData, CurrentReceiver.Name, CurrentUser.Name));
-                            Chat.ItemsSource = messages;
-                            Chat.SelectedIndex = Chat.Items.Count - 1;
-                            Chat.ScrollIntoView(Chat.SelectedItem);
-                            Chat.SelectedItem = null;
-                        });
-                      
+                            if (mglist[i].ReceiverPort == Convert.ToInt32(returnData.Split().Last()))
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+
+                                    mglist[i].Messages.Add(new Message(returnData, CurrentReceiver.Name, CurrentUser.Name));
+                                    //Chat.ItemsSource = mglist[i].Messages;
+                                    Chat.SelectedIndex = Chat.Items.Count - 1;
+                                    Chat.ScrollIntoView(Chat.SelectedItem);
+                                    Chat.SelectedItem = null;
+                                    //foreach (var VARIABLE in ContactList.Items)
+                                    //{
+                                    //    User r = (User)VARIABLE;
+                                    //    if (r.LocalPort == Convert.ToInt32(returnData.Split().Last()))
+                                    //    {
+                                    //        ContactList.SelectedItem = VARIABLE;
+                                    //    }
+                                    //}
+
+                                    ;
+                                }));
+                                break;
+                            }
+                        }
+
                     }
                     catch (Exception e)
                     {
-
+                        MessageBox.Show(e.Message);
                     }
                 }
             }
@@ -217,13 +235,21 @@ namespace Chat_App
         {
             if (SendMEssageTextbox.Text.Length > 0)
             {
-                Send(SendMEssageTextbox.Text);
-
-                messages.Add(new Message(SendMEssageTextbox.Text, CurrentUser.Name, CurrentReceiver.Name));
-                Chat.ItemsSource = messages;
-                Chat.SelectedIndex = Chat.Items.Count - 1;
-                Chat.ScrollIntoView(Chat.SelectedItem);
-                Chat.SelectedItem = null;
+                Send(SendMEssageTextbox.Text + " " + CurrentUser.LocalPort);
+                for (int i = 0; i < mglist.Count; i++)
+                {
+                    if (mglist[i].ReceiverPort == remotePort && mglist[i].SenderPort == CurrentUser.LocalPort)
+                    {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            mglist[i].Messages.Add(new Message(SendMEssageTextbox.Text, CurrentUser.Name, CurrentReceiver.Name));
+                            Chat.ItemsSource = mglist[i].Messages;
+                            Chat.SelectedIndex = Chat.Items.Count - 1;
+                            Chat.ScrollIntoView(Chat.SelectedItem);
+                            Chat.SelectedItem = null;
+                        }));
+                    }
+                }
                 SendMEssageTextbox.Text = "";
             }
             
@@ -300,14 +326,25 @@ namespace Chat_App
         {
             if (e.Key == Key.Return && SendMEssageTextbox.Text.Length > 0)
             {
-                Send(SendMEssageTextbox.Text);
-
-                messages.Add(new Message(SendMEssageTextbox.Text, CurrentUser.Name, CurrentReceiver.Name));
-                Chat.ItemsSource = messages;
-                Chat.SelectedIndex = Chat.Items.Count - 1;
-                Chat.ScrollIntoView(Chat.SelectedItem);
-                Chat.SelectedItem = null;
-                SendMEssageTextbox.Text = "";
+                if (SendMEssageTextbox.Text.Length > 0)
+                {
+                    Send(SendMEssageTextbox.Text + " " + CurrentUser.LocalPort);
+                    for (int i = 0; i < mglist.Count; i++)
+                    {
+                        if (mglist[i].ReceiverPort == remotePort && mglist[i].SenderPort == CurrentUser.LocalPort)
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                mglist[i].Messages.Add(new Message(SendMEssageTextbox.Text, CurrentUser.Name, CurrentReceiver.Name));
+                                Chat.ItemsSource = mglist[i].Messages;
+                                Chat.SelectedIndex = Chat.Items.Count - 1;
+                                Chat.ScrollIntoView(Chat.SelectedItem);
+                                Chat.SelectedItem = null;
+                            }));
+                        }
+                    }
+                    SendMEssageTextbox.Text = "";
+                }
             }
         }
 
@@ -315,10 +352,23 @@ namespace Chat_App
         {
             try
             {
+
                 User u = (User)ContactList.SelectedItem;
                 u.InitUSerPort();
                 remotePort = u.LocalPort;
                 ReceiverNameLabel.Content = u.Name;
+                CurrentReceiver = u;
+                CurrentReceiver.InitUSerPort();
+                foreach (var VARIABLE in mglist)
+                {
+                    if (VARIABLE.ReceiverPort == remotePort && VARIABLE.SenderPort == CurrentUser.LocalPort)
+                    {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            Chat.ItemsSource = VARIABLE.Messages;
+                        }));
+                    }
+                }
             }
             catch (Exception exception)
             {
@@ -401,7 +451,7 @@ namespace Chat_App
                 int gsd = 0;
                 foreach (var VARIABLE in t)
                 {
-                    if (VARIABLE.Name == SearchUsertxt.Text)
+                    if (VARIABLE.Name == SearchUsertxt.Text && VARIABLE.Name != CurrentUser.Name)
                     {
                         int fg = 0;
                         foreach (var VARIABLE2 in users_Contacts)
@@ -422,12 +472,16 @@ namespace Chat_App
                         {
                             gsd = 1;
                             users_Contacts.Add(VARIABLE);
+                            CurrentReceiver = VARIABLE;
+                            CurrentReceiver.InitUSerPort();
+                            mglist.Add(new MessagesList(CurrentReceiver.LocalPort, CurrentUser.LocalPort));
                             this.Dispatcher.Invoke(() =>
                             {
                                 ContactList.ItemsSource = users_Contacts;
                             });
                             Add_User_Argb.Visibility = Visibility.Hidden;
                             Add_Contact_Border.Visibility = Visibility.Hidden;
+                            ReceiverNameLabel.Content = CurrentReceiver.Name;
                             SearchUsertxt.Text = "";
                         }
                         break;
